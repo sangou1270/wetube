@@ -10,8 +10,14 @@ console.log(`Listening on: http://localhost:${PORT}`);
 const handleHome = (req, res) => res.send('Hello from ass!!!!!!');
 const handleProfile=(req, res) => res.send("You are on my Profile");
 
-app.get("/",handleHome);  
+const betweenHome = (req, res, next) => {
+    console.log("Between");
+    next();
+};
+app.use(betweenHome);
+
+app.get("/", handleHome);  
 
 app.get("/profile", handleProfile);
 
-app.listen(PORT, hendleListening); //포트 번호
+app.listen(PORT, hendleListening); //포트 번호 
