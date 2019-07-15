@@ -12,6 +12,10 @@ const app = express();
  
 app.use(helmet());
 app.set('view engine', "pug");
+
+//*이 방법처럼 user에 해당하는 filedmf server에 저장하는건 좋지않다.
+app.use("/uploads", express.static("uploads"));//directory에서 file을 보내주는 middleware 
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
