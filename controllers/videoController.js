@@ -1,7 +1,14 @@
 import routes  from "../routes"
+import Video from "../models/Video";
 
-export const home = (req, res) => {
-  res.render("home",{ pageTitle: "Home", videos });
+export const home = async(req, res) => {
+  try{
+    const videos = await Video.find({});//await은 다음 과정이 끝날 때까지 잠시 기달려 달라는 의미다.
+    res.render("home",{ pageTitle: "Home", videos });//await가 실행된후에 이줄의 코드가 실행된다.
+  }catch(error){
+    console.log(error);
+    res.render("home",{ pageTitle: "Home", videos: [] });//await가 실행된후에 이줄의 코드가 실행된다.
+  }
 };
 
 export const search = (req, res) => {
@@ -17,12 +24,19 @@ export const search = (req, res) => {
 export const getUpload = (req, res) =>
   res.render("upload", { pageTitle: "Upload" });
 
-export const postUpload = (req, res) =>{
-  const {
-    body: { file,title, description }
+export const postUpload = async(req, res) =>{
+  const { 
+    body: { title, description },
+    file : { path }
   } = req;
+  const newVideo = await Video.create({
+    fileUrl: path,
+    title,
+    description
+  });
+  console.log(newVideo)
   // TODO 비디오 업로드 및 저장
-  res.redirect(routes.videoDetail(324393))
+  res.redirect(routes.videoDetail(newVideo.id));
 };
 
 export const videoDetail = (req, res) =>
