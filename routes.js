@@ -16,7 +16,7 @@ const CHANGE_PASSWORD = "/change-password";
 
 const VIDEOS = "/videos";
 const UPLOAD = "/upload";
-const VIDEO_DETAIL = "/:id";
+const VIDEO_DETAIL = "/:id"; //:id는 변수라고 생각하면 된다. url로 부터 정보를 가져오는 방법
 const EDIT_VIDEO = "/:id/edit";
 const DELETE_VIDEO = "/:id/delete";
 
@@ -27,7 +27,7 @@ const routes = {
     logout: LOGOUT,
     search: SEARCH,
     users: USERS,
-    userDetail: (id) => {
+    userDetail: id => {
         if(id){
             return `/users/${id}`;
         }else{
@@ -38,7 +38,7 @@ const routes = {
     changePassword: CHANGE_PASSWORD,
     videos: VIDEOS,
     upload: UPLOAD,
-    videoDetail: id=> {
+    videoDetail: id => {
         if(id){
             return `/videos/${id}`;
         }else{
