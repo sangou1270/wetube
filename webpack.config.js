@@ -7,10 +7,18 @@ const ENTRY_FILE = path.resolve(__dirname, "assets", "js", "main.js");
 const OUTPUT_DIR = path.join(__dirname, "static");
 
 const config = {
-  entry: ENTRY_FILE,
+  entry: ["@babel/polyfill", ENTRY_FILE],
   mode: MODE,
   module: {
     rules: [
+      {
+        test: /\.(js)$/,
+        use: [
+          {
+            loader: "babel-loader"
+          }
+        ]
+      },
       {
         test: /\.(scss)$/, // 확장자가 scss라고 들어오면 코드를 실행
         // scss를 css로 통역하는 plugin
@@ -21,7 +29,7 @@ const config = {
           {
             loader: "postcss-loader",
             options: {
-              plugin() {
+              plugins() {
                 return [autoprefixer({ browsers: "cover 99.5% " })]; // autoprefixer를 사용해 99.5%의 호환된다.
               }
             }

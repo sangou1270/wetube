@@ -8,18 +8,21 @@ import routes from "./routes";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
-const app = express();
- 
-app.use(helmet());
-app.set('view engine', "pug");
 
-//*이 방법처럼 user에 해당하는 filedmf server에 저장하는건 좋지않다.
-//아래 코드를 통해서 /uploads 경로를 통해 uploads 디렉토리에 포함된 파일을 로드할 수 있음 
-app.use("/uploads", express.static("uploads"));//directory에서 file을 보내주는 middleware 
+const app = express();
+
+app.use(helmet());
+app.set("view engine", "pug");
+
+// *이 방법처럼 user에 해당하는 filedmf server에 저장하는건 좋지않다.
+// 아래 코드를 통해서 /uploads 경로를 통해 uploads 디렉토리에 포함된 파일을 로드할 수 있음
+app.use("/uploads", express.static("uploads")); // directory에서 file을 보내주는 middleware
+
+app.use("/static", express.static("static"));
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(localsMiddleware);
 
