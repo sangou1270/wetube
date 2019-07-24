@@ -20,6 +20,11 @@ const VIDEO_DETAIL = "/:id"; // :id는 변수라고 생각하면 된다. url로 
 const EDIT_VIDEO = "/:id/edit";
 const DELETE_VIDEO = "/:id/delete";
 
+// Github
+
+const GITHUB = "/auth/github";
+const GITHUB_CALLBACK = "/auth/github/callback";
+
 const routes = {
   home: HOME,
   join: JOIN,
@@ -58,7 +63,9 @@ const routes = {
     } else {
       return DELETE_VIDEO;
     }
-  }
+  },
+  gitHub: GITHUB,
+  githubCallback: GITHUB_CALLBACK
 };
 
 export default routes;
