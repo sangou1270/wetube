@@ -26,7 +26,9 @@ passport.use(
     {
       clientID: process.env.FB_ID,
       clientSecret: process.env.FB_SECRET,
-      callbackURL: `http://localhost:4000${routes.facebookCallback}`
+      callbackURL: `https://cuddly-dolphin-49.localtunnel.me/${routes.facebookCallback}`,
+      profileFields: ["id", "displayName", "phoths", "email"],
+      scope: ["public_profile", "email"]
     },
     facebookLoginCallback
   )
