@@ -8,7 +8,6 @@ export const home = async (req, res) => {
 
     res.render("home", { pageTitle: "Home", videos }); // await가 실행된후에 이줄의 코드가 실행된다.
   } catch (error) {
-    console.log(error);
     res.render("home", { pageTitle: "Home", videos: [] }); // await가 실행된후에 이줄의 코드가 실행된다.
   }
 };
@@ -54,23 +53,25 @@ export const videoDetail = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id).populate("creator"); // populate() == 객체를 데려오는 함수
-    console.log(video);
     res.render("videoDetail", { pageTitle: video.title, video });
   } catch (error) {
     res.redirect(routes.home);
   }
 };
 
-export const getEditVideo = async (
-  req,
-  res // gitEditVideo == 탬플릿에 값을 뿌려주는 역할
-) => {
+// gitEditVideo == 탬플릿에 값을 뿌려주는 역할
+export const getEditVideo = async (req, res) => {
   const {
     params: { id }
   } = req;
   try {
     const video = await Video.findById(id);
-    res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+    // eslint-disable-next-line eqeqeq
+    if (video.creator == req.user.id) {
+      res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+    } else {
+      throw Error();
+    }
   } catch (error) {
     res.redirect(routes.home);
   }
@@ -95,7 +96,12 @@ export const deleteVideo = async (req, res) => {
     params: { id }
   } = req;
   try {
-    await Video.findOneAndRemove({ _id: id });
+    const video = await Video.findById(id);
+    if (video.creator !== req.user.id) {
+      throw Error();
+    } else {
+      await Video.findOneAndRemove({ _id: id });
+    }
     res.redirect(routes.home);
   } catch (error) {
     console.log(error);
